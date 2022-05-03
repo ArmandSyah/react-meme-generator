@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <main>
+    <div
+      class="form"
+      data-testid="form"
+    >
+      <input
+        class="form--input"
+        placeholder="Top text"
+        type="text"
+      />
+      <input
+        class="form--input"
+        placeholder="Bottom text"
+        type="text"
+      />
+      <button
+        class="form--button"
+        data-testid="meme-button"
+      >
+        Get a new meme image 🖼
+      </button>
+    </div>
+    <img
+      class="meme--image"
+      src=""
+    />
+  </main>
+</DocumentFragment>
+`;
