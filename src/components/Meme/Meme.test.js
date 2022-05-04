@@ -1,12 +1,21 @@
 import React from "react";
-import { screen, render, cleanup, fireEvent } from "@testing-library/react";
+import { screen, render, cleanup, fireEvent, act } from "@testing-library/react";
 
 import Meme from './Meme';
+import memesData from '../../data/memesData';
+
+beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+        json: jest.fn().mockResolvedValue(memesData)
+    })
+});
 
 afterEach(cleanup);
 
 it('renders properly', async () => {
-    render(<Meme />)
+    await act(async () => {
+        render(<Meme />)
+    })
 
     const formElement = screen.getByTestId("form");
     expect(formElement).toBeVisible();
@@ -17,8 +26,10 @@ it('renders properly', async () => {
 });
 
 it('renders new image after pressing button', async () => {
-    render(<Meme />)
-
+    await act(async () => {
+        render(<Meme />)
+    })
+    
     const formElement = screen.getByTestId("form");
     expect(formElement).toBeVisible();
 
@@ -29,13 +40,17 @@ it('renders new image after pressing button', async () => {
     const buttonElement = screen.getByTestId("meme-button")
     expect(buttonElement).toHaveClass("form--button")
     
-    fireEvent.click(buttonElement);
+    await act(async () => {
+        fireEvent.click(buttonElement);
+    });
     expect(memeImage).not.toHaveAttribute('src', 'http://i.imgflip.com/1bij.jpg')
     expect(memeImage).toHaveAttribute('src', expect.stringMatching(/jpg|png/i));
 });
 
 it('renders text on the image', async () => {
-    render(<Meme />)
+    await act(async () => {
+        render(<Meme />)
+    })
     const topText = screen.getByText('One does not simply');
     const bottomText = screen.getByText('Walk into Mordor');
 
@@ -49,14 +64,24 @@ it('renders text on the image', async () => {
     const newTopText = 'This is'
     const newBottomText = 'poggers';
 
-    fireEvent.change(topTextBox, {target: {value: newTopText}});
-    fireEvent.change(bottomTextBox, {target: {value: newBottomText}})
+    await act(async () => {
+        fireEvent.change(topTextBox, {target: {value: newTopText}});
+    });
+
+    await act(async () => {
+        fireEvent.change(bottomTextBox, {target: {value: newBottomText}})
+    });
 
     expect(topText).toHaveTextContent(newTopText);
     expect(bottomText).toHaveTextContent(newBottomText);
 });
 
 it('renders', async () => {
-    const { asFragment } = render(<Meme />)
-    expect(asFragment()).toMatchSnapshot();
+    let fragment;
+
+    await act(async () => {
+        const { asFragment } = render(<Meme />)
+        fragment = asFragment
+    })
+    expect(fragment()).toMatchSnapshot();
 });
