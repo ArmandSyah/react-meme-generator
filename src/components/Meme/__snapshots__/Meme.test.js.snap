@@ -9,13 +9,17 @@ exports[`renders 1`] = `
     >
       <input
         class="form--input"
+        name="topText"
         placeholder="Top text"
         type="text"
+        value="One does not simply"
       />
       <input
         class="form--input"
+        name="bottomText"
         placeholder="Bottom text"
         type="text"
+        value="One does not simply"
       />
       <button
         class="form--button"
@@ -24,10 +28,25 @@ exports[`renders 1`] = `
         Get a new meme image 🖼
       </button>
     </div>
-    <img
-      class="meme--image"
-      src=""
-    />
+    <div
+      class="meme"
+    >
+      <img
+        class="meme--image"
+        data-testid="meme--image"
+        src="http://i.imgflip.com/1bij.jpg"
+      />
+      <h2
+        class="meme--text top"
+      >
+        One does not simply
+      </h2>
+      <h2
+        class="meme--text bottom"
+      >
+        Walk into Mordor
+      </h2>
+    </div>
   </main>
 </DocumentFragment>
 `;
